@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledTag = styled.a`
+export const StyledTag = styled.button`
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #000;
@@ -11,4 +11,5 @@ export const StyledTag = styled.a`
   box-shadow: -4px 3px 0 0 #000;
   background-color: white;
   opacity: 0.9;
+  text-decoration: none;
 `;

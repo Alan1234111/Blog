@@ -4,14 +4,14 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import Home from "./pages/Home";
+import Home, { loader as HomeLoader } from "./pages/Home";
 // import Post from "./pages/Post";
 import Layout from "./components/Layout";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route index element={<Home />} />
+      <Route index element={<Home />} loader={HomeLoader} />
       {/* <Route path="/post/:id" element={<Post />} /> */}
     </Route>
   )
