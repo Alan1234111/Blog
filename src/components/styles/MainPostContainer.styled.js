@@ -26,6 +26,7 @@ export const StyledMainPostContainer = styled.div`
       transform: translateX(-50%);
     }
   }
+
   .post-info {
     order: 2;
 
@@ -35,7 +36,7 @@ export const StyledMainPostContainer = styled.div`
       text-align: center;
     }
 
-    & p {
+    & div {
       font-size: 0.7rem;
       font-weight: normal;
       opacity: 0.8;

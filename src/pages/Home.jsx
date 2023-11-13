@@ -1,17 +1,17 @@
 import MainPosts from "../components/MainPosts";
 import TagsSection from "../components/TagsSection";
 import SectionPosts from "../components/SectionPosts";
-import {getPosts, getTags} from "../api";
-import {useLoaderData} from "react-router-dom";
+import { getPosts, getTags } from "../api";
+import { useLoaderData } from "react-router-dom";
 
 export async function loader() {
   const postsData = await getPosts();
   const tagsData = await getTags();
-  return {postsData: postsData.posts, tagsData: tagsData.tags};
+  return { postsData: postsData.posts, tagsData: tagsData.tags };
 }
 
 export default function Home() {
-  const {postsData, tagsData} = useLoaderData();
+  const { postsData, tagsData } = useLoaderData();
 
   return (
     <>

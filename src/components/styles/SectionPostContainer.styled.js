@@ -6,6 +6,7 @@ export const StyledPostsContainer = styled.section`
   margin: 0 auto 1em;
   text-decoration: none;
   color: black;
+
   img {
     width: 30%;
     height: 200px;
