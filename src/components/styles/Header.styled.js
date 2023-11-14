@@ -15,14 +15,16 @@ export const StyledHeader = styled.header`
     margin: 0 auto;
   }
 
-  h1 {
+  a:nth-child(1) {
     font-size: 1.5rem;
     letter-spacing: 3px;
     text-transform: uppercase;
     font-weight: 400;
+    text-decoration: none;
+    color: black;
   }
 
-  a {
+  a:nth-child(2) {
     text-decoration: none;
     background-color: #9443e0;
     color: white;

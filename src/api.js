@@ -22,3 +22,7 @@ export async function getSinglePost(id) {
 export async function getTags() {
   return fetchFromAPI("tags");
 }
+
+export async function getPostFromTag(id) {
+  return fetchFromAPI(`tags/${id}`);
+}

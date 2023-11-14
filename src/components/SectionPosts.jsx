@@ -28,11 +28,6 @@ export default function SectionPosts(props) {
             <div className="post-information">
               <h2>{post.title}</h2>
               <p dangerouslySetInnerHTML={createMarkup(post.text)} />
-              {/* <div
-                dangerouslySetInnerHTML={{
-                  __html: post.content,
-                }}
-              ></div> */}
               <StyledTag as={Link} to={`tags/${post.tag._id}`}>
                 {post.tag.name}
               </StyledTag>

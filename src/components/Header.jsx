@@ -1,11 +1,12 @@
 import { StyledHeader } from "./styles/Header.styled";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
     <StyledHeader>
       <div className="wrapper">
-        <h1>blogly</h1>
-        <a href="/login">Log in</a>
+        <Link to="/">blogly</Link>
+        <Link to="/login">Log in</Link>
       </div>
     </StyledHeader>
   );

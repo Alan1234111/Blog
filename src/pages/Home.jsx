@@ -1,29 +1,34 @@
+import { Suspense } from "react";
 import MainPosts from "../components/MainPosts";
 import TagsSection from "../components/TagsSection";
 import SectionPosts from "../components/SectionPosts";
 import { getPosts, getTags } from "../api";
-import { useLoaderData } from "react-router-dom";
+import { Await, defer, useLoaderData } from "react-router-dom";
+import Loading from "../components/Loading";
 
 export async function loader() {
-  const postsData = await getPosts();
-  const tagsData = await getTags();
-  return { postsData: postsData.posts, tagsData: tagsData.tags };
+  return defer({
+    postsData: getPosts(),
+    tagsData: await getTags(),
+  });
 }
 
 export default function Home() {
   const { postsData, tagsData } = useLoaderData();
 
   return (
-    <>
-      {postsData ? (
-        <>
-          <MainPosts postData={postsData} />
-          <TagsSection tagsData={tagsData} />
-          <SectionPosts postData={postsData} />
-        </>
-      ) : (
-        <p>Loading data...</p>
-      )}
-    </>
+    <Suspense fallback={<Loading />}>
+      <Await resolve={postsData}>
+        {(data) => {
+          return (
+            <>
+              <MainPosts postData={data.posts} />
+              <TagsSection tagsData={tagsData.tags} />
+              <SectionPosts postData={data.posts} />
+            </>
+          );
+        }}
+      </Await>
+    </Suspense>
   );
 }

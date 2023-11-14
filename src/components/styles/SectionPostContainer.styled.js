@@ -38,4 +38,5 @@ export const StyledPostsContainer = styled.section`
     font-size: 0.9rem;
     opacity: 0.9;
   }
+
 `;
