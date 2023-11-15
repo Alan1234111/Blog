@@ -8,6 +8,8 @@ import Home, { loader as HomeLoader } from "./pages/Home";
 import Post, { loader as PostLoader } from "./pages/Post";
 import Tags, { loader as TagsLoader } from "./pages/Tags";
 import Layout from "./components/Layout";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +25,8 @@ const router = createBrowserRouter(
         element={<Tags />}
         loader={TagsLoader}
       />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
     </Route>
   )
 );

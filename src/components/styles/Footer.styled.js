@@ -5,7 +5,7 @@ export const StyledFooter = styled.footer`
   justify-content: center;
   align-items: center;
   padding: 0.3em 0;
-  margin-top: 2em;
   background-color: #000;
   color: #fff;
+  margin-top: auto;
 `;
