@@ -26,3 +26,7 @@ export async function getTags() {
 export async function getPostFromTag(id) {
   return fetchFromAPI(`tags/${id}`);
 }
+
+export async function getComments(id) {
+  return fetchFromAPI(`/posts/${id}/comments`);
+}
