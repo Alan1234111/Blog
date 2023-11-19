@@ -1,10 +1,10 @@
-import { StyledLogin } from "../components/styles/Login.styled";
-import { Form, Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../components/AuthContext";
+import {StyledLogin} from "../components/styles/Login.styled";
+import {Form, Link, useNavigate} from "react-router-dom";
+import {useAuth} from "../components/AuthContext";
 
 export default function Register() {
   const navigate = useNavigate();
-  const { register } = useAuth();
+  const {register} = useAuth();
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -13,7 +13,7 @@ export default function Register() {
       const formData = new FormData(event.target);
       await register(formData);
 
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       console.error("Register failed", err);
     }
@@ -24,11 +24,7 @@ export default function Register() {
       <h2>Sign up</h2>
       <Form method="POST" onSubmit={handleRegister}>
         <input type="text" name="username" placeholder="Username" />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-        />
+        <input type="password" name="password" placeholder="Password" />
         <button type="submit">SIGN UP</button>
       </Form>
       <h3>
