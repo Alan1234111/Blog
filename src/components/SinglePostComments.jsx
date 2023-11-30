@@ -3,23 +3,26 @@ import { StyledSinglePostComment } from "../styles/singlePost/SinglePostComment.
 import SinglePostCommentContainer from "../containers/SinglePostCommentContainer";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function SinglePostComments(props) {
   const { authenticated } = useAuth();
   const { id } = useParams();
-
   const [comments, setComments] = useState(props.commentsData);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // useForm
+  const form = useForm();
+  const { register, handleSubmit, formState } = form;
+  const { errors } = formState;
+
+  const onSubmit = async (data) => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      throw new Error("You need to be logged in");
+      return console.error("Token Expired");
     }
 
     try {
-      const formData = new FormData(event.target);
       const res = await fetch(
         `http://localhost:3000/api/posts/${id}/comments`,
         {
@@ -28,7 +31,7 @@ export default function SinglePostComments(props) {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/x-www-form-urlencoded",
           },
-          body: new URLSearchParams(formData).toString(),
+          body: new URLSearchParams(data).toString(),
         }
       );
 
@@ -37,7 +40,7 @@ export default function SinglePostComments(props) {
         setComments([...comments, newComment.comment]);
       }
     } catch (err) {
-      console.error("Login failed", err);
+      console.error("Add comment failed", err);
     }
   };
 
@@ -63,17 +66,20 @@ export default function SinglePostComments(props) {
 
   return (
     <StyledSinglePostComment>
-      <h3>Comments</h3>
-
       {authenticated ? (
-        <form method="POST" onSubmit={handleSubmit}>
+        <form method="POST" onSubmit={handleSubmit(onSubmit)}>
+          <label htmlFor="comment">Comment:</label>
           <textarea
-            name="comment"
             id="comment"
             cols="130"
             rows="3"
             placeholder="Enter your comment here"
+            {...register("comment", {
+              required: "Conetnt is required",
+            })}
           ></textarea>
+
+          <p>{errors.comment?.message}</p>
           <button type="submit">Submit</button>
         </form>
       ) : (

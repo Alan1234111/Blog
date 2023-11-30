@@ -1,20 +1,29 @@
 import { StyledLogin } from "../styles/authPages/Login.styled";
-import { Form, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function Register() {
   const navigate = useNavigate();
-  const { register } = useAuth();
+  const { signUp } = useAuth();
 
-  const handleRegister = async (event) => {
-    event.preventDefault();
+  // useForm
+  const form = useForm();
+  const { register, handleSubmit, formState } = form;
+  const { errors } = formState;
 
+  const onSubmit = async (data) => {
     try {
-      const formData = new FormData(event.target);
-      const res = await register(formData);
+      const res = await signUp(data);
 
       if (res) {
-        navigate("/login");
+        toast.success("Succesfully created user");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+      } else {
+        toast.error("Sign Up failed");
       }
     } catch (err) {
       console.error("Register failed", err);
@@ -24,15 +33,41 @@ export default function Register() {
   return (
     <StyledLogin>
       <h2>Sign up</h2>
-      <Form method="POST" onSubmit={handleRegister}>
-        <input type="text" name="username" placeholder="Username" />
+      <form
+        method="POST"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
+        <label htmlFor="username">Username:</label>
         <input
-          type="password"
-          name="password"
-          placeholder="Password"
+          id="username"
+          type="text"
+          placeholder="Username"
+          {...register("username", {
+            required: "Username is required",
+          })}
         />
+
+        <p>{errors.username?.message}</p>
+
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Password"
+          {...register("password", {
+            required: "Password is required",
+            pattern: {
+              value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
+              message: "Invalid password format",
+            },
+          })}
+        />
+
+        <p>{errors.password?.message}</p>
+
         <button type="submit">SIGN UP</button>
-      </Form>
+      </form>
       <h3>
         Already have an account? <Link to="/login">Log in</Link>
       </h3>

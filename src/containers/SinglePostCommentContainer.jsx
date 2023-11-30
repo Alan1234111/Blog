@@ -7,9 +7,12 @@ import { StyledSinglePostCommentContainer } from "../styles/singlePost/SinglePos
 export default function SinglePostCommentContainer(props) {
   const date = getFormattedDate(props.date);
   const [likeClicked, setLikeClicked] = useState(false);
+  const { authenticated } = useAuth();
 
   useEffect(() => {
-    setLikeClicked(checkLikedComments());
+    if (authenticated) {
+      setLikeClicked(checkLikedComments());
+    }
   }, []);
 
   const checkLikedComments = () => {
@@ -20,6 +23,8 @@ export default function SinglePostCommentContainer(props) {
   };
 
   const handleLike = async (id) => {
+    if (authenticated) return;
+
     try {
       const token = localStorage.getItem("token");
       const idobject = {

@@ -4,6 +4,7 @@ import {
   useState,
   useEffect,
 } from "react";
+import toast from "react-hot-toast";
 
 const AuthContext = createContext();
 
@@ -16,15 +17,22 @@ export const AuthProvider = ({ children }) => {
     setAuthenticated(!!token);
   }, []);
 
-  const register = async (formData) => {
+  const signUp = async (formData) => {
     try {
-      const response = fetch("http://localhost:3000/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams(formData).toString(),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams(formData).toString(),
+        }
+      );
+
+      if (response.ok) {
+        return true;
+      }
     } catch (err) {
       console.error(err);
     }
@@ -60,11 +68,12 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("token");
     setAuthenticated(false);
+    toast.success("Succesfully Log Out");
   };
 
   return (
     <AuthContext.Provider
-      value={{ authenticated, login, logout, register }}
+      value={{ authenticated, login, logout, signUp }}
     >
       {children}
     </AuthContext.Provider>
