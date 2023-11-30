@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledPostsContainer = styled.section`
+export const HomeLatestsPosts = styled.section`
   display: flex;
   width: 60%;
   margin: 0 auto 1em;
@@ -38,5 +38,4 @@ export const StyledPostsContainer = styled.section`
     font-size: 0.9rem;
     opacity: 0.9;
   }
-
 `;

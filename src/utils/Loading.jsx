@@ -1,4 +1,4 @@
-import { StyledLoading } from "./styles/Loading.styled";
+import { StyledLoading } from "../styles/utils/Loading.styled";
 
 export default function Loading() {
   return (

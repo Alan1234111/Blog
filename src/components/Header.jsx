@@ -1,6 +1,7 @@
-import { StyledHeader } from "./styles/Header.styled";
 import { Link } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../context/AuthContext";
+import { StyledHeader } from "../styles/layout/Header.styled";
+import { StyledButton } from "../styles/utils/Button.styled";
 
 export default function Header() {
   const { authenticated, logout } = useAuth();
@@ -11,9 +12,13 @@ export default function Header() {
         <Link to="/">blogly</Link>
 
         {authenticated ? (
-          <Link onClick={logout}>Log out</Link>
+          <StyledButton as={Link} onClick={logout}>
+            Log out
+          </StyledButton>
         ) : (
-          <Link to="/login">Log in</Link>
+          <StyledButton as={Link} to="/login">
+            Log in
+          </StyledButton>
         )}
       </div>
     </StyledHeader>

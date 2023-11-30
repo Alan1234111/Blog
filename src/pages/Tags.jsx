@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import { getPostFromTag } from "../api";
-import { StyledTagsPage } from "../components/styles/TagsPage.styled";
+import { getPostFromTag } from "../services/api";
+import { StyledTagsPage } from "../styles/tagsPage/TagsPage.styled";
 import { Await, defer, useLoaderData } from "react-router-dom";
-import { StyledTag } from "../components/styles/Tag.styled";
+import { StyledTag } from "../styles/utils/Tag.styled";
 import { Link } from "react-router-dom";
-import Loading from "../components/Loading";
+import Loading from "../utils/Loading";
 
 export async function loader({ params }) {
   return defer({

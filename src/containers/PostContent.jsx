@@ -1,17 +1,16 @@
-import { StyledTag } from "./styles/Tag.styled";
-import { StyledPostContent } from "./styles/PostContent.styled";
-import dayjs from "dayjs";
+import { StyledTag } from "../styles/utils/Tag.styled";
+import { StyledPostContent } from "../styles/singlePost/PostContent.styled";
+import { getFormattedDate } from "../services/getFormattedDate";
 
 export default function PostContent(props) {
-  const date = dayjs(props.createdAt);
-  const formattedDate = date.format("DD/MM/YYYY");
+  const date = getFormattedDate(props.createdAt);
 
   return (
     <StyledPostContent>
       <StyledTag className="tag">{props.postData.tag.name}</StyledTag>
       <h2>{props.postData.title}</h2>
       <div className="wrapper">
-        <p className="date">{formattedDate}</p>
+        <p className="date">{date}</p>
         <span>|</span>
         <p className="author">by {props.postData.author}</p>
       </div>
@@ -25,3 +24,5 @@ export default function PostContent(props) {
     </StyledPostContent>
   );
 }
+
+// Display Post Conttent on singele post

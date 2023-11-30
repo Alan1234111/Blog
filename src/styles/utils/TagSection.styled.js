@@ -5,10 +5,10 @@ export const StyledTagSection = styled.section`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #f3f3f3;
+  width: 100%;
   margin: 2.5em 0;
   padding: 1.5em 0 2em;
-  width: 100%;
+  background-color: #f3f3f3;
   overflow: hidden;
 
   h2 {

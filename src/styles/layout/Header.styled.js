@@ -8,10 +8,10 @@ export const StyledHeader = styled.header`
   z-index: 10;
 
   .wrapper {
+    max-width: 1200px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
     margin: 0 auto;
   }
 
@@ -22,13 +22,5 @@ export const StyledHeader = styled.header`
     font-weight: 400;
     text-decoration: none;
     color: black;
-  }
-
-  a:nth-child(2) {
-    text-decoration: none;
-    background-color: #9443e0;
-    color: white;
-    padding: 0.3em 0.7em;
-    border-radius: 2px;
   }
 `;

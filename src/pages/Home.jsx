@@ -1,34 +1,59 @@
 import { Suspense } from "react";
-import MainPosts from "../components/MainPosts";
+import HomeMainPosts from "../components/HomeMainPosts";
 import TagsSection from "../components/TagsSection";
-import SectionPosts from "../components/SectionPosts";
-import { getPosts, getTags } from "../api";
+import HomeLatestsPosts from "../components/HomeLatestsPosts";
+import {
+  getLatestsPosts,
+  getRandomTags,
+  getFirstFivePosts,
+} from "../services/api";
 import { Await, defer, useLoaderData } from "react-router-dom";
-import Loading from "../components/Loading";
+import Loading from "../utils/Loading";
 
 export async function loader() {
   return defer({
-    postsData: getPosts(),
-    tagsData: await getTags(),
+    firstFivePosts: getFirstFivePosts(),
+    latestsPosts: getLatestsPosts(),
+    randomTags: getRandomTags(),
   });
 }
 
 export default function Home() {
-  const { postsData, tagsData } = useLoaderData();
+  const { firstFivePosts, latestsPosts, randomTags } =
+    useLoaderData();
 
   return (
-    <Suspense fallback={<Loading />}>
-      <Await resolve={postsData}>
-        {(data) => {
-          return (
-            <>
-              <MainPosts postData={data.posts} />
-              <TagsSection tagsData={tagsData.tags} />
-              <SectionPosts postData={data.posts} />
-            </>
-          );
-        }}
-      </Await>
-    </Suspense>
+    <>
+      {/* Home Main Posts Section  */}
+      <Suspense fallback={<Loading />}>
+        <Await resolve={firstFivePosts}>
+          {(postsData) => {
+            return <HomeMainPosts postsData={postsData.posts} />;
+          }}
+        </Await>
+      </Suspense>
+
+      {/* Tags Section */}
+      <Suspense fallback={<Loading />}>
+        <Await resolve={randomTags}>
+          {(randomTagsData) => {
+            return <TagsSection randomTags={randomTagsData.tags} />;
+          }}
+        </Await>
+      </Suspense>
+
+      {/* Latests Posts Section */}
+      <Suspense fallback={<Loading />}>
+        <Await resolve={latestsPosts}>
+          {(latestsPostsData) => {
+            return (
+              <HomeLatestsPosts
+                latestsPosts={latestsPostsData.posts}
+              />
+            );
+          }}
+        </Await>
+      </Suspense>
+    </>
   );
 }

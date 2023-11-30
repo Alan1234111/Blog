@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledMainPosts = styled.main`
+export const StyledHomeMainPosts = styled.main`
   display: grid;
   grid-template-columns: 1.3fr 2fr 1.3fr;
   grid-template-rows: repeat(2, 375px);

@@ -1,8 +1,13 @@
-import {createContext, useContext, useState, useEffect} from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -27,16 +32,19 @@ export const AuthProvider = ({children}) => {
 
   const login = async (formData) => {
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams(formData).toString(),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams(formData).toString(),
+        }
+      );
 
       if (response.ok) {
-        const {token} = await response.json();
+        const { token } = await response.json();
         localStorage.setItem("token", token);
         setAuthenticated(true);
         return true;
@@ -54,7 +62,13 @@ export const AuthProvider = ({children}) => {
     setAuthenticated(false);
   };
 
-  return <AuthContext.Provider value={{authenticated, login, logout, register}}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{ authenticated, login, logout, register }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {
