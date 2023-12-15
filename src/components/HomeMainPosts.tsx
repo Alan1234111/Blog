@@ -1,18 +1,23 @@
 import { StyledHomeMainPosts } from "../styles/homePage/HomeMainPosts.styled";
 import HomeMainPostsContainer from "../containers/HomeMainPostsContainer";
+import { Post } from "../types";
 
-export default function HomeMainPosts(props) {
+type PropsHomeMainPosts = {
+  postsData: Post[];
+};
+
+export default function HomeMainPosts(props: PropsHomeMainPosts) {
   return (
     <StyledHomeMainPosts>
       {props.postsData.map((post, index) => (
         <HomeMainPostsContainer
           key={index}
-          id={post._id}
+          _id={post._id}
           title={post.title}
           text={post.text}
-          tagId={post.tag._id}
-          tagName={post.tag.name}
           photoUrl={post.photoUrl}
+          tag={post.tag}
+          $bg={false}
         />
       ))}
     </StyledHomeMainPosts>

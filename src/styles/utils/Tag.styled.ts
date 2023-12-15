@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledTag = styled.button`
+export const StyledTag = styled.button<{ $bg?: boolean }>`
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #000;

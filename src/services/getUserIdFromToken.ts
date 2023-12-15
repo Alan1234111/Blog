@@ -1,4 +1,4 @@
-export const getUserIdFromToken = (token) => {
+export const getUserIdFromToken = (token: string) => {
   // Split the token into its three parts: header, payload, and signature
   const [header, payload, signature] = token.split(".");
 

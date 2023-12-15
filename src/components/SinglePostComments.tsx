@@ -4,19 +4,35 @@ import SinglePostCommentContainer from "../containers/SinglePostCommentContainer
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Comment } from "../types";
 
-export default function SinglePostComments(props) {
+type PropsSinglePostComments = {
+  commentsData: Comment[];
+};
+
+type FormValues = {
+  comment: string;
+};
+
+export default function SinglePostComments(
+  props: PropsSinglePostComments
+) {
   const { authenticated } = useAuth();
   const { id } = useParams();
   const [comments, setComments] = useState(props.commentsData);
 
   // useForm
-  const form = useForm();
+  const form = useForm<FormValues>({
+    defaultValues: {
+      comment: "",
+    },
+  });
   const { register, handleSubmit, formState } = form;
   const { errors } = formState;
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: FormValues) => {
     const token = localStorage.getItem("token");
+    console.log(data);
 
     if (!token) {
       return console.error("Token Expired");
@@ -44,7 +60,10 @@ export default function SinglePostComments(props) {
     }
   };
 
-  const updateCommentsFromLike = (id, likeClicked) => {
+  const updateCommentsFromLike = (
+    id: string,
+    likeClicked: boolean
+  ) => {
     const updatedComments = comments.map((comment) => {
       if (comment._id === id && !likeClicked) {
         return {
@@ -71,8 +90,8 @@ export default function SinglePostComments(props) {
           <label htmlFor="comment">Comment:</label>
           <textarea
             id="comment"
-            cols="130"
-            rows="3"
+            cols={130}
+            rows={3}
             placeholder="Enter your comment here"
             {...register("comment", {
               required: "Conetnt is required",
@@ -89,15 +108,16 @@ export default function SinglePostComments(props) {
       {comments.map((comment, index) => (
         <SinglePostCommentContainer
           key={index}
-          id={comment._id}
+          _id={comment._id}
           date={comment.createdAt}
           author={comment.user.username}
           content={comment.comment}
           likeCount={comment.likeCount}
           likes={comment.likes}
-          updateCommentsFromLike={(id, likeClicked) =>
-            updateCommentsFromLike(id, likeClicked)
-          }
+          updateCommentsFromLike={(
+            id: string,
+            likeClicked: boolean
+          ) => updateCommentsFromLike(id, likeClicked)}
         />
       ))}
     </StyledSinglePostComment>

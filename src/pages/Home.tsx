@@ -9,6 +9,7 @@ import {
 } from "../services/api";
 import { Await, defer, useLoaderData } from "react-router-dom";
 import Loading from "../utils/Loading";
+import { Post, Tag } from "../types";
 
 export async function loader() {
   return defer({
@@ -20,7 +21,11 @@ export async function loader() {
 
 export default function Home() {
   const { firstFivePosts, latestsPosts, randomTags } =
-    useLoaderData();
+    useLoaderData() as {
+      firstFivePosts: Post[];
+      latestsPosts: Post[];
+      randomTags: Tag[];
+    };
 
   return (
     <>

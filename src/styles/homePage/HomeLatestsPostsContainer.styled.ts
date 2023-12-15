@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const HomeLatestsPosts = styled.section`
+export const StyledHomeLatestsPostsContainer = styled.section`
   display: flex;
   width: 60%;
   margin: 0 auto 1em;

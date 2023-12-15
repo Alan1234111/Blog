@@ -12,9 +12,7 @@ export default function Header() {
         <Link to="/">blogly</Link>
 
         {authenticated ? (
-          <StyledButton as={Link} onClick={logout}>
-            Log out
-          </StyledButton>
+          <StyledButton onClick={logout}>Log out</StyledButton>
         ) : (
           <StyledButton as={Link} to="/login">
             Log in

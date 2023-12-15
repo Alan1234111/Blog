@@ -1,38 +1,45 @@
-import { StyledLogin } from "../styles/authPages/Login.styled";
 import { Link, useNavigate } from "react-router-dom";
+import { StyledLogin } from "../styles/authPages/Login.styled";
 import { useAuth } from "../context/AuthContext";
 import { useForm } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
 import toast from "react-hot-toast";
+import { LogInFormData } from "../context/AuthContext";
 
-export default function Register() {
+export default function Login() {
   const navigate = useNavigate();
-  const { signUp } = useAuth();
+  const { login } = useAuth();
 
   // useForm
-  const form = useForm();
-  const { register, handleSubmit, formState } = form;
+  const form = useForm<LogInFormData>({
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
+  const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: LogInFormData) => {
     try {
-      const res = await signUp(data);
+      const res = await login(data);
 
       if (res) {
-        toast.success("Succesfully created user");
+        toast.success("Succesfully Log in");
         setTimeout(() => {
-          navigate("/login");
+          navigate("/");
         }, 1000);
       } else {
-        toast.error("Sign Up failed");
+        toast.error("Authentication Failed");
       }
     } catch (err) {
-      console.error("Register failed", err);
+      console.error("Login failed", err);
     }
   };
 
   return (
     <StyledLogin>
-      <h2>Sign up</h2>
+      <h2>Log in</h2>
       <form
         method="POST"
         onSubmit={handleSubmit(onSubmit)}
@@ -40,8 +47,8 @@ export default function Register() {
       >
         <label htmlFor="username">Username:</label>
         <input
-          id="username"
           type="text"
+          id="username"
           placeholder="Username"
           {...register("username", {
             required: "Username is required",
@@ -50,9 +57,8 @@ export default function Register() {
 
         <p>{errors.username?.message}</p>
 
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password">Password:</label>
         <input
-          id="password"
           type="password"
           placeholder="Password"
           {...register("password", {
@@ -66,10 +72,11 @@ export default function Register() {
 
         <p>{errors.password?.message}</p>
 
-        <button type="submit">SIGN UP</button>
+        <button type="submit">SIGN IN</button>
       </form>
+      <DevTool control={control} />
       <h3>
-        Already have an account? <Link to="/login">Log in</Link>
+        Not a Member? <Link to="/register">Sign up now</Link>
       </h3>
     </StyledLogin>
   );

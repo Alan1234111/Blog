@@ -1,6 +1,6 @@
 const BASE_API_URL = "http://localhost:3000";
 
-async function fetchFromAPI(endpoint) {
+async function fetchFromAPI(endpoint: string) {
   const url = `${BASE_API_URL}/api/${endpoint}`;
   const response = await fetch(url);
 
@@ -9,11 +9,6 @@ async function fetchFromAPI(endpoint) {
   }
 
   return await response.json();
-}
-
-async function PostToApi(endpoint, event, id) {
-    const url = `${BASE_API_URL}/api/${endpoint}`;
-    const formData = new FormData(event.target);
 }
 
 // Posts
@@ -26,17 +21,17 @@ export async function getFirstFivePosts() {
   return fetchFromAPI("posts/first-five");
 }
 
-export async function getSinglePost(id) {
+export async function getSinglePost(id: string) {
   return fetchFromAPI(`posts/${id}`);
 }
 
-export async function getPostFromTag(id) {
+export async function getPostFromTag(id: string) {
   return fetchFromAPI(`tags/${id}`);
 }
 
 export async function getLatestsPosts() {
   return fetchFromAPI(`posts/latests`);
-} 
+}
 
 // Tags
 
@@ -50,6 +45,6 @@ export async function getRandomTags() {
 
 // Comments
 
-export async function getComments(id) {
+export async function getComments(id: string) {
   return fetchFromAPI(`posts/${id}/comments`);
 }

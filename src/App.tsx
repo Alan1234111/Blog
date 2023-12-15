@@ -8,12 +8,19 @@ import Home, { loader as HomeLoader } from "./pages/Home";
 import SinglePost, {
   loader as SinglePostLoader,
 } from "./pages/SinglePost";
-import Tags, { loader as TagsLoader } from "./pages/Tags";
+import TagPosts, { loader as TagsLoader } from "./pages/TagPosts";
+import AllPosts, { loader as allPostsLoader } from "./pages/AllPosts";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
+import SignUp from "./pages/SignUp";
 import ErrorBoundary from "./pages/ErrorBoundary";
 import NotFound from "./pages/NotFound";
+
+type ParamsType = {
+  params: {
+    [key: string]: string;
+  };
+};
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,12 +34,19 @@ const router = createBrowserRouter(
       <Route
         path="/posts/:id"
         element={<SinglePost />}
-        loader={SinglePostLoader}
+        // loader={SinglePostLoader}
+        loader={(args: ParamsType) => SinglePostLoader(args)}
+        errorElement={<ErrorBoundary />}
+      />
+      <Route
+        path="/posts"
+        element={<AllPosts />}
+        loader={allPostsLoader}
         errorElement={<ErrorBoundary />}
       />
       <Route
         path="/tags/:id"
-        element={<Tags />}
+        element={<TagPosts />}
         loader={TagsLoader}
         errorElement={<ErrorBoundary />}
       />
@@ -43,7 +57,7 @@ const router = createBrowserRouter(
       />
       <Route
         path="/register"
-        element={<Register />}
+        element={<SignUp />}
         errorElement={<ErrorBoundary />}
       />
       <Route path="*" element={<NotFound />} />

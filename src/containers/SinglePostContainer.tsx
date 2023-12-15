@@ -1,9 +1,16 @@
 import { StyledTag } from "../styles/utils/Tag.styled";
 import { StyledPostContent } from "../styles/singlePost/PostContent.styled";
 import { getFormattedDate } from "../services/getFormattedDate";
+import { Post } from "../types/index";
 
-export default function PostContent(props) {
-  const date = getFormattedDate(props.createdAt);
+type PropsSinglePostComments = {
+  postData: Post;
+};
+
+export default function SinglePostContainer(
+  props: PropsSinglePostComments
+) {
+  const date = getFormattedDate(props.postData.createdAt);
 
   return (
     <StyledPostContent>

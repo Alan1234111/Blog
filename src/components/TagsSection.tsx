@@ -1,7 +1,12 @@
 import { StyledTagSection } from "../styles/utils/TagSection.styled";
 import TagsSectionContainer from "../containers/TagsSectionContainer";
+import { Tag } from "../types";
 
-export default function TagsSection(props) {
+type PropsTagsSection = {
+  randomTags: Tag[];
+};
+
+export default function TagsSection(props: PropsTagsSection) {
   return (
     <StyledTagSection>
       <h2>FEATURED TAGS</h2>
@@ -9,7 +14,7 @@ export default function TagsSection(props) {
         {props.randomTags.map((tag, index) => (
           <TagsSectionContainer
             key={index}
-            id={tag._id}
+            _id={tag._id}
             name={tag.name}
           />
         ))}

@@ -4,7 +4,19 @@ import { getUserIdFromToken } from "../services/getUserIdFromToken";
 import { getFormattedDate } from "../services/getFormattedDate";
 import { StyledSinglePostCommentContainer } from "../styles/singlePost/SinglePostCommentContainer.styled";
 
-export default function SinglePostCommentContainer(props) {
+type PropsSinglePostCommentsContainer = {
+  _id: string;
+  date: string;
+  author: string;
+  content: string;
+  likeCount: number;
+  likes: string[];
+  updateCommentsFromLike: (id: string, likeClicked: boolean) => void;
+};
+
+export default function SinglePostCommentContainer(
+  props: PropsSinglePostCommentsContainer
+) {
   const date = getFormattedDate(props.date);
   const [likeClicked, setLikeClicked] = useState(false);
   const { authenticated } = useAuth();
@@ -17,13 +29,15 @@ export default function SinglePostCommentContainer(props) {
 
   const checkLikedComments = () => {
     const token = localStorage.getItem("token");
-    const userId = getUserIdFromToken(token);
-
-    return props.likes.includes(userId);
+    if (token) {
+      const userId = getUserIdFromToken(token);
+      return props.likes.includes(userId);
+    }
+    return false;
   };
 
-  const handleLike = async (id) => {
-    if (authenticated) return;
+  const handleLike = async (id: string) => {
+    if (!authenticated) return;
 
     try {
       const token = localStorage.getItem("token");
@@ -62,7 +76,7 @@ export default function SinglePostCommentContainer(props) {
       <p className="content">{props.content}</p>
 
       <div className="comment-action-container">
-        <button onClick={() => handleLike(props.id)}>
+        <button onClick={() => handleLike(props._id)}>
           <img
             src={
               likeClicked ? "/like_filled.svg" : "/like_unfilled.svg"

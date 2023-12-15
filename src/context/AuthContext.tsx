@@ -6,9 +6,32 @@ import {
 } from "react";
 import toast from "react-hot-toast";
 
-const AuthContext = createContext();
+export type LogInFormData = {
+  username: string;
+  password: string;
+};
 
-export const AuthProvider = ({ children }) => {
+export type SignUpFormData = {
+  username: string;
+  password: string;
+};
+
+type AuthContextType = {
+  authenticated?: boolean;
+  login: (formData: LogInFormData) => Promise<boolean | undefined>;
+  logout: () => void;
+  signUp: (formData: SignUpFormData) => Promise<boolean | undefined>;
+};
+
+type AuthContextProviderProps = {
+  children: React.ReactNode;
+};
+
+const AuthContext = createContext({} as AuthContextType);
+
+export const AuthProvider = ({
+  children,
+}: AuthContextProviderProps) => {
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -17,7 +40,7 @@ export const AuthProvider = ({ children }) => {
     setAuthenticated(!!token);
   }, []);
 
-  const signUp = async (formData) => {
+  const signUp = async (formData: SignUpFormData) => {
     try {
       const response = await fetch(
         "http://localhost:3000/api/register",
@@ -38,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (formData) => {
+  const login = async (formData: LogInFormData) => {
     try {
       const response = await fetch(
         "http://localhost:3000/api/login",
@@ -55,6 +78,7 @@ export const AuthProvider = ({ children }) => {
         const { token } = await response.json();
         localStorage.setItem("token", token);
         setAuthenticated(true);
+        console.log(token);
         return true;
       } else {
         // Authentication failed, handle the error here

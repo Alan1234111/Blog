@@ -1,39 +1,44 @@
-import { Link, useNavigate } from "react-router-dom";
 import { StyledLogin } from "../styles/authPages/Login.styled";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import toast from "react-hot-toast";
+import { SignUpFormData } from "../context/AuthContext";
 
-export default function Login() {
+export default function SignUp() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { signUp } = useAuth();
 
   // useForm
-  const form = useForm();
-  const { register, control, handleSubmit, formState } = form;
+  const form = useForm<SignUpFormData>({
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
+  const { register, handleSubmit, formState } = form;
   const { errors } = formState;
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: SignUpFormData) => {
     try {
-      const res = await login(data);
+      const res = await signUp(data);
 
       if (res) {
-        toast.success("Succesfully Log in");
+        toast.success("Succesfully created user");
         setTimeout(() => {
-          navigate("/");
+          navigate("/login");
         }, 1000);
       } else {
-        toast.error("Authentication Failed");
+        toast.error("Sign Up failed");
       }
     } catch (err) {
-      console.error("Login failed", err);
+      console.error("Register failed", err);
     }
   };
 
   return (
     <StyledLogin>
-      <h2>Log in</h2>
+      <h2>Sign up</h2>
       <form
         method="POST"
         onSubmit={handleSubmit(onSubmit)}
@@ -41,8 +46,8 @@ export default function Login() {
       >
         <label htmlFor="username">Username:</label>
         <input
-          type="text"
           id="username"
+          type="text"
           placeholder="Username"
           {...register("username", {
             required: "Username is required",
@@ -51,10 +56,10 @@ export default function Login() {
 
         <p>{errors.username?.message}</p>
 
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">Password</label>
         <input
+          id="password"
           type="password"
-          name="password"
           placeholder="Password"
           {...register("password", {
             required: "Password is required",
@@ -67,11 +72,10 @@ export default function Login() {
 
         <p>{errors.password?.message}</p>
 
-        <button type="submit">SIGN IN</button>
+        <button type="submit">SIGN UP</button>
       </form>
-      <DevTool control={control} />
       <h3>
-        Not a Member? <Link to="/register">Sign up now</Link>
+        Already have an account? <Link to="/login">Log in</Link>
       </h3>
     </StyledLogin>
   );
